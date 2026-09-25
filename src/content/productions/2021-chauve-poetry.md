@@ -1,14 +1,21 @@
 ---
-title: POETRY
-artist: CHAUVE
-releaseDate: 2021-07-08
+title: Petry
+artist: Chauve
 cover: /src/assets/productions/chauve-poetry.jpg
-roles: []
-genres: []
-summary: Recorded at studio "Les productions du Chauve" in January 2021 Recorded
-  , mixed and mastered by Yves De Roeck AKA Doc de Rock Pictures by Lauriane
-  Chazelas PAO by Camille Blondiaux
+releaseDate: 2021-07-08
 link: https://chauve.bandcamp.com/album/poetry
+summary: Recorded, mixed and mastered by Yves De Roeck @ studio Les productions
+  du Chauve
+roles:
+  - production
+  - enregistrement
+  - mixage
+  - mastering
+genres:
+  - stoner
+  - hardcore
 featured: false
 draft: true
 ---
+Pictures by Lauriane Chazelas  
+PAO by Camille Blondiaux
