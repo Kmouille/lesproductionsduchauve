@@ -19,8 +19,7 @@ featured: true
 draft: false
 ---
 Recorded, Mixed, Mastered @ Production du Chauve By Yves de Roeck, 2024  
-Band Line-Up Yves: Lead Guitar  
-Lead Vocals  
+Band Line-Up Yves: Lead Guitar, Lead Vocals  
 Teddy: Drums  
 Trap: Bass on O/N  
 Etienne: Bass on Dadizded, In The Mud For Love,…
