@@ -1,0 +1,11 @@
+# LF everywhere, whatever core.autocrlf says, so Prettier stays happy on Windows too.
+* text=auto eol=lf
+
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
