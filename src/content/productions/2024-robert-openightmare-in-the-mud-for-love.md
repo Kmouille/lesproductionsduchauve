@@ -18,7 +18,7 @@ links:
 featured: true
 draft: false
 ---
-Recorded, Mixed, and Mastered @ Production du Chauve By Yves de Roeck, 2024  
+Recorded, Mixed, Mastered @ Production du Chauve By Yves de Roeck, 2024  
 Band Line-Up Yves: Lead Guitar  
 Lead Vocals  
 Teddy: Drums  
