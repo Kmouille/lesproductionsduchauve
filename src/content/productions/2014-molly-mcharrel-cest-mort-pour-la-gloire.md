@@ -1,5 +1,5 @@
 ---
-title: Molly McHarrel - C'est mort pour la gloire
+title: C'est mort pour la gloire
 artist: Molly McHarrel
 cover: /src/assets/productions/molly-mcharrel-cest-mort-pour-la-gloire.jpg
 releaseDate: 2014-02-08
