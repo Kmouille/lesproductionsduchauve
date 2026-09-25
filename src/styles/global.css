@@ -22,6 +22,20 @@ html {
   font-family: var(--font-body);
   line-height: 1.55;
   -webkit-text-size-adjust: 100%;
+  /* Keeps anchor targets clear of the sticky header, which wraps to 3, 2 then 1 row. */
+  scroll-padding-top: 9rem;
+}
+
+@media (min-width: 30rem) {
+  html {
+    scroll-padding-top: 7rem;
+  }
+}
+
+@media (min-width: 48rem) {
+  html {
+    scroll-padding-top: 4.75rem;
+  }
 }
 
 body {
