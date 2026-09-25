@@ -22,5 +22,5 @@ Les morceaux ont été composés et captés chaotiquement sur plus de 2 ans !
 
 Reposant sur des démos enregistrées en coloc' dans appartement à Montréal pendant le confinement, du midi de batteries électroniques transportées en charrette dans différents studios, des voix prises dans des salles de sieste de bureaux de la place Victoria, susurrées quand les enfants dorment et parfois même dans un vrai studio, une basse enregistrée sur le tard... le projet fut une expérience inédite et enrichissant.
 
-Le résultat cohérent sonne intentionnellement comme un grondement légèrement saturé et révèle de Dear Broken Silence une facette plus brute, plus rock que sur l'EP précédent.
+Challenge accepted. Le résultat cohérent sonne intentionnellement comme un grondement légèrement saturé et révèle de Dear Broken Silence une facette plus brute, plus rock que sur l'EP précédent.
 
