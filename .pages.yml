@@ -180,37 +180,35 @@ content:
     type: file
     path: src/content/pages/studio.yml
     fields:
-      - name: intro
-        label: Introduction
-        type: rich-text
-        required: true
-        options: { format: html, media: texte }
-      - name: gallery
-        label: Photos du studio
-        type: image
-        description: 12 photos maximum
-        options: { media: pages, multiple: { max: 12 } }
-      - name: gear
-        label: Matériel
+      - name: studio
+        label: Le studio
         type: object
-        list: true
-        description: Une catégorie par bloc (micros, préamplis, instruments)
         fields:
-          - { name: name, label: Catégorie, type: string, required: true }
-          - name: items
-            label: Éléments
-            type: object
-            list: true
-            fields:
-              - { name: name, label: Nom, type: string, required: true }
-              - name: quantity
-                label: Quantité
-                type: number
-                description: Facultatif, laissez vide pour un seul exemplaire
-              - name: note
-                label: Note
-                type: string
-                description: "Facultatif, par exemple : à lampes, vintage 1972"
+          - name: text
+            label: Texte
+            type: rich-text
+            required: true
+            options: { format: html, media: texte }
+          - name: photos
+            label: Photos
+            type: image
+            description: 12 photos maximum
+            options: { media: pages, multiple: { max: 12 } }
+      - name: gear
+        label: Le matériel
+        type: object
+        description: Un texte libre et des photos, pas besoin de lister chaque appareil
+        fields:
+          - name: text
+            label: Texte
+            type: rich-text
+            required: true
+            options: { format: html, media: texte }
+          - name: photos
+            label: Photos
+            type: image
+            description: 12 photos maximum
+            options: { media: pages, multiple: { max: 12 } }
 
   - name: services
     label: Services

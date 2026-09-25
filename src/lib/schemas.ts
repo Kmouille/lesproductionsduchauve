@@ -94,35 +94,19 @@ export const aboutSchema = (image: ImageHelper) =>
     portrait: cmsImage(image),
   });
 
-const gearItem = z.object({
-  name: requiredText("Nom du matériel"),
-  quantity: z.preprocess(
-    blankToUndefined,
-    z.coerce
-      .number({ error: "Quantité : nombre entier positif attendu" })
-      .int({ error: "Quantité : nombre entier positif attendu" })
-      .positive({ error: "Quantité : nombre entier positif attendu" })
-      .optional(),
-  ),
-  note: z.preprocess(blankToUndefined, z.string().trim().optional()),
-});
+const studioSection = (image: ImageHelper, name: string) =>
+  z.object({
+    text: requiredText(`Texte ${name}`),
+    photos: z.preprocess(
+      blankToEmptyList,
+      z.array(cmsImage(image)).max(12, `Photos ${name} : 12 photos maximum`),
+    ),
+  });
 
 export const studioSchema = (image: ImageHelper) =>
   z.object({
-    intro: requiredText("Introduction"),
-    gallery: z.preprocess(
-      blankToEmptyList,
-      z.array(cmsImage(image)).max(12, "Galerie : 12 photos maximum"),
-    ),
-    gear: z.preprocess(
-      blankToEmptyList,
-      z.array(
-        z.object({
-          name: requiredText("Catégorie"),
-          items: z.preprocess(blankToEmptyList, z.array(gearItem)),
-        }),
-      ),
-    ),
+    studio: studioSection(image, "du studio"),
+    gear: studioSection(image, "du matériel"),
   });
 
 export const servicesSchema = z.object({

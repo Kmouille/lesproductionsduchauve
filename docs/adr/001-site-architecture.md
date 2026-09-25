@@ -42,7 +42,7 @@ Out of scope: contact form, blog, prices, multiple languages, analytics, custom 
 | `/productions/`       | Cover grid, newest first, role and genre filters, hover cards        |
 | `/productions/[slug]` | Zoomable cover, tags, summary, text, listen button, other links, nav |
 | `/services`           | 5 anchored sections, each with up to 4 productions for that role     |
-| `/studio`             | Intro, photo gallery, gear sheet by category                         |
+| `/studio`             | Studio and gear sections, each a text and up to 12 photos            |
 | `/qui-suis-je`        | Portrait and story                                                   |
 | `#contact`            | Footer on every page: email and social links                         |
 | `/404`                | Styled, `noindex`                                                    |
@@ -67,6 +67,9 @@ A production has: `title`, `artist`, `releaseDate` (only the year is shown), `co
 `link` (one listen URL on any platform), `links` (other buttons), `featured`, `draft` and a
 rich-text body. The slug comes from artist and title, not from the filename, and duplicates
 fail the build.
+
+The studio file holds two sections, `studio` and `gear`, each a rich text and up to 12
+photos. There is no gear inventory: Yves describes his equipment in his own words.
 
 Roles and genres are defined once in `src/lib/taxonomy.ts` and repeated in `.pages.yml`; a
 test keeps both lists identical.
@@ -118,7 +121,7 @@ circle) drives the favicon and the default share image through `npm run brand`.
 | `src/lib/*.ts`           | Pure logic, unit tested next to the code (`*.test.ts`)       |
 | `src/lib/content.ts`     | The only bridge between `astro:content` and the pure modules |
 | `src/content.config.ts`  | Collections wired to the schemas                             |
-| `src/components/`        | Header, Footer, Seo, CoverCard, CoverViewer, GearSheet       |
+| `src/components/`        | Header, Footer, Seo, CoverCard, CoverViewer, PhotoGrid       |
 | `src/layouts/Base.astro` | HTML shell, fonts, header, footer                            |
 | `src/pages/`             | Routes                                                       |
 | `scripts/`               | Maintenance scripts run by hand (`npm run brand`)            |
@@ -133,6 +136,7 @@ circle) drives the favicon and the default share image through `npm run brand`.
 | 3D flip cards                                  | More CSS and browser quirks than a hover overlay, hides the artwork                                                   |
 | Build-time import from Bandcamp                | Network at build time, scraping; the one-off import was done once                                                     |
 | Netlify Lighthouse plugin                      | Heavy dev dependencies with known advisories, ran on every deploy. Scores are checked by hand with PageSpeed Insights |
+| Itemized gear sheet by category                | Yves does not want to publish a precise inventory (theft risk); free text and photos say enough and cost less to keep |
 
 ## Consequences
 

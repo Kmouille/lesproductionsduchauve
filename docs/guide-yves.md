@@ -35,7 +35,7 @@ meilleur fichier, puis décoche **Brouillon**.
 | -------------------- | -------------------------------------------------------------- |
 | **Accueil**          | La photo principale et les lignes de texte du bandeau          |
 | **Qui suis-je**      | Ton portrait et ton histoire                                   |
-| **Le studio**        | L'introduction, jusqu'à 12 photos, le matériel par catégorie   |
+| **Le studio**        | Deux blocs, Le studio et Le matériel : un texte et 12 photos   |
 | **Services**         | Le titre, l'accroche et la description des 5 services          |
 | **Réglages du site** | L'email de contact, les réseaux sociaux, la description Google |
 

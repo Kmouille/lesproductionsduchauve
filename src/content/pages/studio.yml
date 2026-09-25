@@ -1,6 +1,6 @@
-intro: "<p>(Texte provisoire) Le studio des Productions du Chauve : une pièce de prise, des amplis, des racks, et le temps qu'il faut pour que ça sonne.</p>"
-gallery: []
+studio:
+  text: "<p>(Texte provisoire) Le studio des Productions du Chauve : une pièce de prise, des amplis, des racks, et le temps qu'il faut pour que ça sonne.</p>"
+  photos: []
 gear:
-  - name: Micros
-    items:
-      - name: (liste à compléter)
+  text: "<p>(Texte provisoire) Le matériel du studio.</p>"
+  photos: []

@@ -129,51 +129,35 @@ describe("siteSchema", () => {
 describe("studioSchema", () => {
   const studio = studioSchema(fakeImage);
 
-  it("coerces gear quantities and drops blank notes", () => {
+  it("turns blank photo lists into empty lists", () => {
     const data = studio.parse({
-      intro: "<p>Studio</p>",
-      gallery: null,
-      gear: [
-        {
-          name: "Micros",
-          items: [
-            { name: "SM57", quantity: "4", note: "" },
-            { name: "U87", quantity: "" },
-          ],
-        },
-      ],
+      studio: { text: "<p>Studio</p>", photos: null },
+      gear: { text: "<p>Matériel</p>", photos: "" },
     });
-    expect(data.gallery).toEqual([]);
-    expect(data.gear[0].items).toEqual([
-      { name: "SM57", quantity: 4 },
-      { name: "U87" },
-    ]);
+    expect(data.studio.photos).toEqual([]);
+    expect(data.gear.photos).toEqual([]);
   });
 
-  it("caps the gallery at 12 photos", () => {
-    const gallery = Array.from(
+  it("caps each section at 12 photos", () => {
+    const photos = Array.from(
       { length: 13 },
       (_, i) => `/src/assets/pages/${i}.jpg`,
     );
-    expect(studio.safeParse({ intro: "x", gallery, gear: [] }).success).toBe(
-      false,
+    const result = studio.safeParse({
+      studio: { text: "x", photos: [] },
+      gear: { text: "x", photos },
+    });
+    expect(messages(result)).toContain(
+      "Photos du matériel : 12 photos maximum",
     );
   });
 
-  it("reports an invalid gear quantity in French", () => {
+  it("names the section whose text is missing", () => {
     const result = studio.safeParse({
-      intro: "x",
-      gallery: [],
-      gear: [
-        {
-          name: "Micros",
-          items: [{ name: "SM57", quantity: "-2" }],
-        },
-      ],
+      studio: { text: " ", photos: [] },
+      gear: { text: "x", photos: [] },
     });
-    expect(messages(result)).toContain(
-      "Quantité : nombre entier positif attendu",
-    );
+    expect(messages(result)).toContain("Texte du studio : champ obligatoire");
   });
 });
 
