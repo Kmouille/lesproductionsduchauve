@@ -1,7 +1,7 @@
 ---
 title: In the mud for Love
 artist: ROBERT OpeNightmare
-cover: /src/assets/productions/robert-openightmare-in-the-mud-for-love.png
+cover: /src/assets/productions/robert-openightmare-in-the-mud-for-love.jpg
 releaseDate: 2024-12-01
 link: https://openightmare.bandcamp.com/album/in-the-mud-for-love
 summary: "Recorded, Mixed, and Mastered @ Production du Chauve By Yves de Roeck,

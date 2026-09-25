@@ -1,7 +1,7 @@
 ---
 title: BEN & FIST [ Live @ La Cave à Rock ]
 artist: BEN & FIST
-cover: /src/assets/productions/les-productions-du-chauve-ben-et-fist-live-la-cave-a-rock.png
+cover: /src/assets/productions/les-productions-du-chauve-ben-et-fist-live-la-cave-a-rock.jpg
 releaseDate: 2019-09-20
 link: https://lesprodchauve.bandcamp.com/album/ben-fist-live-la-cave-rock
 summary: BEN & FIST [ Live @ La Cave à Rock ], Les Productions du Chauve.

@@ -2,7 +2,7 @@
 title: All the fatswines [remastered 2019]
 artist: The Fatswine
 releaseDate: 2019-07-28
-cover: /src/assets/productions/the-fatswine-all-the-fatswines-remastered-2019.png
+cover: /src/assets/productions/the-fatswine-all-the-fatswines-remastered-2019.jpg
 roles: []
 genres: []
 summary: "Recorded ,mixed & mastered @ les productions du chauve 2017 Sound
