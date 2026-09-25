@@ -1,0 +1,30 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/brand/logo.png";
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Page introuvable" noindex>
+  <section class="container not-found">
+    <Image src={logo} alt="" width={240} height={240} />
+    <h1>Page introuvable</h1>
+    <p class="muted">Ce morceau n'est pas sur le disque.</p>
+    <a class="btn btn--primary" href="/">
+      Retour à l'accueil
+    </a>
+  </section>
+</Base>
+
+<style>
+  .not-found {
+    display: grid;
+    justify-items: center;
+    gap: 1rem;
+    padding-block: 4rem;
+    text-align: center;
+  }
+
+  .not-found :global(img) {
+    border-radius: 50%;
+  }
+</style>

@@ -1,0 +1,59 @@
+---
+import { Font } from "astro:assets";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Seo from "../components/Seo.astro";
+import { loadSite } from "../lib/content";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "music.album";
+  noindex?: boolean;
+}
+
+const site = (await loadSite()).data;
+const {
+  title,
+  description = site.description,
+  image = "/og-default.jpg",
+  type = "website",
+  noindex = false,
+} = Astro.props;
+const fullTitle = title
+  ? `${title} | Les Productions du Chauve`
+  : "Les Productions du Chauve";
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <Font cssVariable="--font-display" preload />
+    <Seo
+      title={fullTitle}
+      description={description}
+      image={image}
+      type={type}
+      noindex={noindex}
+    />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      Aller au contenu
+    </a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

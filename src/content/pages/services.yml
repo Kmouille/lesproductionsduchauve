@@ -1,0 +1,21 @@
+services:
+  - id: production
+    title: Production
+    pitch: Du riff à l'album
+    description: "<p>(Texte provisoire) Accompagnement artistique du morceau jusqu'au disque fini.</p>"
+  - id: enregistrement
+    title: Enregistrement
+    pitch: Prises live au studio
+    description: "<p>(Texte provisoire) Le groupe joue ensemble, dans la même pièce, avec ses vrais amplis.</p>"
+  - id: mixage
+    title: Mixage
+    pitch: Gros, sale, lisible
+    description: "<p>(Texte provisoire) Mixage de vos prises, faites ici ou ailleurs.</p>"
+  - id: mastering
+    title: Mastering
+    pitch: Prêt pour le vinyle et le streaming
+    description: "<p>(Texte provisoire) Mastering pour tous les supports.</p>"
+  - id: sonorisation
+    title: Sonorisation live
+    pitch: Le son de vos concerts
+    description: "<p>(Texte provisoire) Sonorisation de concerts et de festivals.</p>"

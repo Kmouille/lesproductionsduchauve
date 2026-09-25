@@ -1,0 +1,167 @@
+---
+import { Image } from "astro:assets";
+import CoverCard from "../components/CoverCard.astro";
+import Base from "../layouts/Base.astro";
+import { loadAccueil, loadProductions, loadServices } from "../lib/content";
+import { featured } from "../lib/productions";
+
+const accueil = (await loadAccueil()).data;
+const services = (await loadServices()).data.services;
+const highlights = featured(await loadProductions());
+---
+
+<Base>
+  <section class="hero">
+    <Image
+      class="hero__img"
+      src={accueil.heroImage}
+      alt="Le studio des Productions du Chauve"
+      widths={[800, 1400, 2000]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="container hero__content">
+      <p class="display-light hero__genres">{accueil.heroGenres}</p>
+      <h1 class="hero__title">
+        Les Productions
+        <br />
+        du Chauve
+      </h1>
+      <p class="display-light hero__services">{accueil.heroServices}</p>
+      <p class="display-light hero__formats">{accueil.heroFormats}</p>
+      <a class="btn btn--primary" href="/productions/">
+        Voir les productions
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="prose home__intro">
+        {accueil.intro} <a href="/qui-suis-je/">Qui suis-je →</a>
+      </p>
+    </div>
+  </section>
+
+  {highlights.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <p class="kicker">À la une</p>
+        <div class="grid">
+          {highlights.map((production) => (
+            <CoverCard
+              production={production}
+              sizes="(min-width: 64rem) 25vw, (min-width: 40rem) 33vw, 50vw"
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container">
+      <p class="kicker">Services</p>
+      <ul class="services-strip">
+        {services.map((service) => (
+          <li>
+            <a href={`/services/#${service.id}`}>
+              <span class="display">{service.title}</span>
+              <span class="muted">{service.pitch}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    display: grid;
+    align-items: end;
+    min-height: min(85vh, 46rem);
+    overflow: hidden;
+  }
+
+  .hero :global(.hero__img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 70% 30%;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(0deg, var(--black) 0%, transparent 45%),
+      linear-gradient(
+        90deg,
+        var(--black) 0%,
+        rgb(0 0 0 / 85%) 30%,
+        rgb(0 0 0 / 35%) 65%,
+        rgb(0 0 0 / 15%) 100%
+      );
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    padding-block: 3rem;
+  }
+
+  .hero__genres,
+  .hero__services {
+    margin: 0;
+    font-size: clamp(1.05rem, 2.4vw, 1.4rem);
+    opacity: 0.9;
+  }
+
+  .hero__title {
+    margin: 0.2rem 0 0.4rem;
+    font-size: clamp(3rem, 10vw, 6.5rem);
+    line-height: 0.88;
+  }
+
+  .hero__formats {
+    margin: 0.4rem 0 1.5rem;
+    font-size: clamp(0.85rem, 1.6vw, 1rem);
+    text-transform: uppercase;
+    letter-spacing: 0.35em;
+  }
+
+  .home__intro {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .services-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    border-top: 1px solid var(--line);
+  }
+
+  .services-strip a {
+    display: grid;
+    align-content: start;
+    height: 100%;
+    gap: 0.25rem;
+    padding: 1rem 0.75rem 1rem 0;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+  }
+
+  .services-strip .display {
+    font-size: 1.6rem;
+  }
+
+  .services-strip a:hover .display {
+    text-decoration: underline;
+  }
+</style>

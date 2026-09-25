@@ -1,0 +1,89 @@
+---
+import CoverCard from "../components/CoverCard.astro";
+import Base from "../layouts/Base.astro";
+import { loadProductions, loadServices } from "../lib/content";
+import { byRole } from "../lib/productions";
+import { ROLE_LABELS } from "../lib/taxonomy";
+
+const services = (await loadServices()).data.services;
+const productions = await loadProductions();
+const EXAMPLES = 4;
+---
+
+<Base
+  title="Services"
+  description="Production, enregistrement, mixage, mastering et sonorisation live."
+>
+  <section class="container page-head">
+    <h1>Services</h1>
+  </section>
+
+  {services.map((service) => {
+    const examples = byRole(productions, service.id);
+    return (
+      <section id={service.id} class="section service">
+        <div class="container service__inner">
+          <div>
+            <p class="kicker">{ROLE_LABELS[service.id]}</p>
+            <h2>{service.title}</h2>
+            <p class="display-light service__pitch">{service.pitch}</p>
+            <div class="prose" set:html={service.description} />
+          </div>
+          {examples.length > 0 && (
+            <div>
+              <div class="service__examples">
+                {examples.slice(0, EXAMPLES).map((production) => (
+                  <CoverCard
+                    production={production}
+                    sizes="(min-width: 48rem) 14rem, 50vw"
+                  />
+                ))}
+              </div>
+              {examples.length > EXAMPLES && (
+                <a
+                  class="btn service__more"
+                  href={`/productions/?role=${service.id}`}
+                >
+                  Voir les {examples.length} productions
+                </a>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  })}
+</Base>
+
+<style>
+  .service {
+    scroll-margin-top: 1rem;
+  }
+
+  .service__inner {
+    display: grid;
+    gap: 2rem;
+  }
+
+  @media (min-width: 48rem) {
+    .service__inner {
+      grid-template-columns: 1.1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .service__pitch {
+    margin: -0.25rem 0 1rem;
+    font-size: 1.4rem;
+  }
+
+  .service__examples {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .service__more {
+    margin-top: 1rem;
+  }
+</style>

@@ -1,0 +1,178 @@
+---
+import { getImage } from "astro:assets";
+import { render } from "astro:content";
+import CoverViewer from "../../components/CoverViewer.astro";
+import Base from "../../layouts/Base.astro";
+import { loadProductions, type ProductionEntry } from "../../lib/content";
+import { musicAlbumJsonLd, serializeJsonLd } from "../../lib/jsonld";
+import { listenLabel } from "../../lib/links";
+import { neighbours } from "../../lib/productions";
+import { GENRE_LABELS, ROLE_LABELS } from "../../lib/taxonomy";
+
+export async function getStaticPaths() {
+  const productions = await loadProductions();
+  return productions.map((production) => ({
+    params: { slug: production.slug },
+    props: { production, ...neighbours(productions, production.slug) },
+  }));
+}
+
+interface Props {
+  production: ProductionEntry;
+  previous: ProductionEntry | null;
+  next: ProductionEntry | null;
+}
+
+const { production, previous, next } = Astro.props;
+const { data } = production;
+const { Content } = await render(production);
+
+const share = await getImage({ src: data.cover, width: 1200, format: "jpg" });
+const jsonLd = serializeJsonLd(
+  musicAlbumJsonLd({
+    title: data.title,
+    artist: data.artist,
+    releaseDate: data.releaseDate,
+    imageUrl: new URL(share.src, Astro.site).href,
+    pageUrl: new URL(Astro.url.pathname, Astro.site).href,
+  }),
+);
+const alt = `Pochette de ${data.title}, ${data.artist}`;
+---
+
+<Base
+  title={`${data.title} - ${data.artist}`}
+  description={data.summary}
+  image={share.src}
+  type="music.album"
+>
+  <script type="application/ld+json" slot="head" set:html={jsonLd} />
+  <article class="container production">
+    <a class="kicker production__back" href="/productions/">
+      ← Toutes les productions
+    </a>
+
+    <div class="production__top">
+      <CoverViewer cover={data.cover} alt={alt} />
+      <div>
+        <p class="kicker">
+          {data.releaseDate.getFullYear()}
+          {data.draft && <span class="tag production__draft">Brouillon</span>}
+        </p>
+        <h1>{data.title}</h1>
+        <p class="production__artist display-light">{data.artist}</p>
+        <ul class="tags">
+          {data.roles.map((role) => (
+            <li class="tag tag--role">{ROLE_LABELS[role]}</li>
+          ))}
+          {data.genres.map((genre) => (
+            <li class="tag">{GENRE_LABELS[genre]}</li>
+          ))}
+        </ul>
+        <div class="prose">
+          <p class="production__summary">{data.summary}</p>
+          <Content />
+        </div>
+      </div>
+    </div>
+
+    {(data.link || data.links.length > 0) && (
+      <ul class="production__links">
+        {data.link && (
+          <li>
+            <a
+              class="btn btn--primary"
+              href={data.link}
+              target="_blank"
+              rel="noopener"
+            >
+              {listenLabel(data.link)}
+            </a>
+          </li>
+        )}
+        {data.links.map((link) => (
+          <li>
+            <a class="btn" href={link.url} target="_blank" rel="noopener">
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <nav class="kicker production__nav" aria-label="Autres productions">
+      {previous ? (
+        <a href={`/productions/${previous.slug}/`}>← {previous.data.title}</a>
+      ) : (
+        <span />
+      )}
+      {next ? (
+        <a href={`/productions/${next.slug}/`}>{next.data.title} →</a>
+      ) : (
+        <span />
+      )}
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .production {
+    padding-block: 1.5rem 0;
+  }
+
+  .production__back {
+    display: inline-block;
+    margin-bottom: 1.25rem;
+    text-decoration: none;
+  }
+
+  .production__top {
+    display: grid;
+    gap: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  @media (min-width: 48rem) {
+    .production__top {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .production__summary {
+    font-size: 1.1rem;
+  }
+
+  .production__draft {
+    margin-left: 0.75rem;
+  }
+
+  .production__artist {
+    margin: 0 0 1rem;
+    font-size: 1.6rem;
+  }
+
+  .production__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+
+  .production__nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .production__nav a {
+    color: var(--secondary);
+    text-decoration: none;
+  }
+
+  .production__nav a:hover {
+    color: var(--cream);
+  }
+</style>

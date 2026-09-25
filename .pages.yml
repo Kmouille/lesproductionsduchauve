@@ -1,0 +1,270 @@
+media:
+  - name: productions
+    label: Pochettes
+    input: src/assets/productions
+    output: /src/assets/productions
+    extensions: [jpg, jpeg, png, webp]
+  - name: pages
+    label: Photos
+    input: src/assets/pages
+    output: /src/assets/pages
+    extensions: [jpg, jpeg, png, webp]
+  - name: texte
+    label: Images dans les textes
+    input: public/media
+    output: /media
+    extensions: [jpg, jpeg, png, webp, gif]
+
+content:
+  - name: productions
+    label: Productions
+    type: collection
+    path: src/content/productions
+    filename: "{year}-{primary}.md"
+    view:
+      fields: [title, artist, releaseDate, draft]
+      primary: title
+      search: [title, artist]
+      sort: [releaseDate, title]
+      default:
+        sort: releaseDate
+        order: desc
+    fields:
+      - name: title
+        label: Titre
+        type: string
+        required: true
+        description: Nom de l'album, de l'EP ou du live
+      - name: artist
+        label: Artiste
+        type: string
+        required: true
+        description: Nom du groupe ou de l'artiste
+      - name: cover
+        label: Pochette
+        type: image
+        required: true
+        description: Le fichier fourni par le groupe, carré, 1400 px minimum de côté (idéalement 3000 px)
+        options: { media: productions }
+      - name: releaseDate
+        label: Date de sortie
+        type: date
+        required: true
+        description: Seule l'année est affichée. Sert aussi à trier les productions
+        options: { format: yyyy-MM-dd }
+      - name: link
+        label: Lien d'écoute
+        type: string
+        description: Adresse de l'album sur Bandcamp, SoundCloud, YouTube, Spotify ou autre. Le bouton affiche le nom de la plateforme
+        pattern:
+          regex: "^https?://"
+          message: L'adresse doit commencer par https://
+      - name: summary
+        label: Résumé
+        type: text
+        required: true
+        description: Une ou deux phrases, affichées au dos de la pochette
+        options: { maxlength: 200 }
+      - name: roles
+        label: Mon rôle
+        type: select
+        description: Obligatoire pour publier. Sert aux filtres de la page Productions
+        options:
+          multiple: true
+          values:
+            - { name: production, label: Production }
+            - { name: enregistrement, label: Enregistrement }
+            - { name: mixage, label: Mixage }
+            - { name: mastering, label: Mastering }
+            - { name: sonorisation, label: Sonorisation live }
+      - name: genres
+        label: Genres
+        type: select
+        description: Facultatif. Seuls les genres utilisés apparaissent dans les filtres
+        options:
+          multiple: true
+          values:
+            - { name: metal, label: Metal }
+            - { name: punk, label: Punk }
+            - { name: doom, label: Doom }
+            - { name: sludge, label: Sludge }
+            - { name: pop, label: Pop }
+            - { name: folk, label: Folk }
+            - { name: rock, label: Rock }
+            - { name: garage, label: Garage }
+            - { name: hardcore, label: Hardcore }
+            - { name: stoner, label: Stoner }
+            - { name: noise, label: Noise }
+            - { name: chanson, label: Chanson }
+            - { name: autre, label: Autre }
+      - name: body
+        label: Texte
+        type: rich-text
+        description: Facultatif. L'histoire du disque, les musiciens, les anecdotes de studio
+        options: { media: texte }
+      - name: links
+        label: Autres liens
+        type: object
+        list: true
+        description: Facultatif. Site du groupe, clip, article de presse
+        fields:
+          - { name: label, label: Nom du bouton, type: string, required: true }
+          - name: url
+            label: Adresse
+            type: string
+            required: true
+            pattern:
+              regex: "^https?://"
+              message: L'adresse doit commencer par https://
+      - name: featured
+        label: À la une
+        type: boolean
+        default: false
+        description: Affiche la production sur la page d'accueil
+      - name: draft
+        label: Brouillon
+        type: boolean
+        default: false
+        description: Cochée, la production reste invisible sur le site en ligne
+
+  - name: accueil
+    label: Accueil
+    type: file
+    path: src/content/pages/accueil.yml
+    fields:
+      - name: heroImage
+        label: Photo principale
+        type: image
+        required: true
+        description: Grande photo en haut de la page, format paysage
+        options: { media: pages }
+      - name: heroGenres
+        label: Ligne des genres
+        type: string
+        required: true
+        description: "Première ligne du bandeau, par exemple : Punk, metal, rock"
+      - name: heroServices
+        label: Ligne des services
+        type: string
+        required: true
+        description: Deuxième ligne du bandeau
+      - name: heroFormats
+        label: Ligne des formats
+        type: string
+        required: true
+        description: Troisième ligne du bandeau
+      - name: intro
+        label: Introduction
+        type: text
+        required: true
+        description: Le paragraphe sous le bandeau
+
+  - name: about
+    label: Qui suis-je
+    type: file
+    path: src/content/pages/qui-suis-je.md
+    fields:
+      - { name: title, label: Titre, type: string, required: true }
+      - name: portrait
+        label: Portrait
+        type: image
+        required: true
+        options: { media: pages }
+      - name: body
+        label: Texte
+        type: rich-text
+        options: { media: texte }
+
+  - name: studio
+    label: Le studio
+    type: file
+    path: src/content/pages/studio.yml
+    fields:
+      - name: intro
+        label: Introduction
+        type: rich-text
+        required: true
+        options: { format: html, media: texte }
+      - name: gallery
+        label: Photos du studio
+        type: image
+        description: 12 photos maximum
+        options: { media: pages, multiple: { max: 12 } }
+      - name: gear
+        label: Matériel
+        type: object
+        list: true
+        description: Une catégorie par bloc (micros, préamplis, instruments)
+        fields:
+          - { name: name, label: Catégorie, type: string, required: true }
+          - name: items
+            label: Éléments
+            type: object
+            list: true
+            fields:
+              - { name: name, label: Nom, type: string, required: true }
+              - name: quantity
+                label: Quantité
+                type: number
+                description: Facultatif, laissez vide pour un seul exemplaire
+              - name: note
+                label: Note
+                type: string
+                description: "Facultatif, par exemple : à lampes, vintage 1972"
+
+  - name: services
+    label: Services
+    type: file
+    path: src/content/pages/services.yml
+    fields:
+      - name: services
+        label: Services
+        type: object
+        list: { min: 5, max: 5 }
+        description: Les cinq services, dans l'ordre d'affichage
+        fields:
+          - { name: id, type: string, hidden: true }
+          - { name: title, label: Titre, type: string, required: true }
+          - name: pitch
+            label: Accroche
+            type: string
+            required: true
+            description: Une phrase courte sous le titre
+          - name: description
+            label: Description
+            type: rich-text
+            required: true
+            options: { format: html, media: texte }
+
+  - name: site
+    label: Réglages du site
+    type: file
+    path: src/content/pages/site.yml
+    fields:
+      - name: description
+        label: Description pour les moteurs de recherche
+        type: text
+        required: true
+        description: Le texte affiché sous le titre du site dans Google
+        options: { maxlength: 160 }
+      - name: email
+        label: Email de contact
+        type: string
+        required: true
+        pattern:
+          regex: "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+          message: Adresse email invalide
+      - name: socials
+        label: Réseaux sociaux
+        type: object
+        list: true
+        description: Affichés dans le pied de page
+        fields:
+          - { name: name, label: Nom, type: string, required: true }
+          - name: url
+            label: Adresse
+            type: string
+            required: true
+            pattern:
+              regex: "^https?://"
+              message: L'adresse doit commencer par https://

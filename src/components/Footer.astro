@@ -1,0 +1,76 @@
+---
+import { loadSite } from "../lib/content";
+
+const { email, socials } = (await loadSite()).data;
+---
+
+<footer id="contact" class="footer">
+  <div class="container footer__inner">
+    <div>
+      <p class="kicker">Contact</p>
+      <a class="footer__mail" href={`mailto:${email}`}>
+        {email}
+      </a>
+    </div>
+    <ul class="footer__socials">
+      {socials.map((social) => (
+        <li>
+          <a class="kicker" href={social.url} rel="me noopener" target="_blank">
+            {social.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <p class="container footer__legal muted">
+    © {new Date().getFullYear()} Les Productions du Chauve
+  </p>
+</footer>
+
+<style>
+  .footer {
+    margin-top: 4rem;
+    padding-block: 3rem 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1.5rem;
+  }
+
+  .footer__mail {
+    font-size: clamp(1.6rem, 5vw, 3rem);
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  .footer__mail:hover {
+    text-decoration: underline;
+  }
+
+  .footer__socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+  }
+
+  .footer__socials a {
+    color: var(--secondary);
+  }
+
+  .footer__socials a:hover {
+    color: var(--cream);
+  }
+
+  .footer__legal {
+    margin-top: 2rem;
+    font-size: 0.75rem;
+  }
+</style>

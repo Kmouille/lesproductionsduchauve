@@ -1,0 +1,194 @@
+---
+import CoverCard from "../../components/CoverCard.astro";
+import Base from "../../layouts/Base.astro";
+import { loadProductions } from "../../lib/content";
+import { GENRES, GENRE_LABELS, ROLES, ROLE_LABELS } from "../../lib/taxonomy";
+
+const productions = await loadProductions();
+const usedGenres = GENRES.filter((genre) =>
+  productions.some((p) => p.data.genres.includes(genre)),
+);
+const sizes = "(min-width: 64rem) 25vw, (min-width: 40rem) 33vw, 50vw";
+---
+
+<Base
+  title="Productions"
+  description="Disques, sessions live et concerts enregistrés, mixés ou masterisés par Les Productions du Chauve."
+>
+  <section class="container page-head">
+    <h1>Productions</h1>
+    <p class="muted">
+      {productions.length}{" "}
+      {productions.length > 1 ? "productions" : "production"} : disques,
+      sessions live et concerts
+    </p>
+  </section>
+
+  {productions.length === 0 ? (
+    <p class="container muted">Aucune production pour le moment.</p>
+  ) : (
+    <>
+      <div class="container filters" data-filters hidden>
+        <div class="filters__group" role="group" aria-label="Filtrer par rôle">
+          <button
+            class="chip"
+            type="button"
+            data-filter="role"
+            data-value=""
+            aria-pressed="true"
+          >
+            Tout
+          </button>
+          {ROLES.map((role) => (
+            <button
+              class="chip"
+              type="button"
+              data-filter="role"
+              data-value={role}
+              aria-pressed="false"
+            >
+              {ROLE_LABELS[role]}
+            </button>
+          ))}
+        </div>
+        {usedGenres.length > 0 && (
+          <div
+            class="filters__group"
+            role="group"
+            aria-label="Filtrer par genre"
+          >
+            <button
+              class="chip"
+              type="button"
+              data-filter="genre"
+              data-value=""
+              aria-pressed="true"
+            >
+              Tous genres
+            </button>
+            {usedGenres.map((genre) => (
+              <button
+                class="chip"
+                type="button"
+                data-filter="genre"
+                data-value={genre}
+                aria-pressed="false"
+              >
+                {GENRE_LABELS[genre]}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+      <div class="container grid" data-grid>
+        {productions.map((production, index) => (
+          <CoverCard production={production} sizes={sizes} eager={index < 4} />
+        ))}
+      </div>
+      <p class="container muted filters__empty" data-empty hidden>
+        Aucune production pour ce filtre.
+      </p>
+    </>
+  )}
+</Base>
+
+<style>
+  .filters {
+    display: grid;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .filters[hidden] {
+    display: none;
+  }
+
+  .filters__group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .filters__empty {
+    padding-block: 2rem;
+  }
+</style>
+
+<script>
+  import {
+    keepAvailable,
+    matches,
+    parseFilterState,
+    serializeFilterState,
+    withFilter,
+    type FilterKey,
+  } from "../../lib/filters";
+
+  const root = document.querySelector<HTMLElement>("[data-filters]");
+  const empty = document.querySelector<HTMLElement>("[data-empty]");
+  const cards = [
+    ...document.querySelectorAll<HTMLElement>("[data-grid] .cover-card"),
+  ];
+
+  if (root && empty) {
+    const chips = [
+      ...root.querySelectorAll<HTMLButtonElement>("[data-filter]"),
+    ];
+    const chipValues = (key: FilterKey) =>
+      chips
+        .filter((chip) => chip.dataset.filter === key)
+        .map((chip) => chip.dataset.value ?? "");
+    let state = keepAvailable(parseFilterState(window.location.search), {
+      roles: chipValues("role"),
+      genres: chipValues("genre"),
+    });
+
+    const render = () => {
+      let visible = 0;
+      for (const card of cards) {
+        const show = matches(
+          {
+            roles: (card.dataset.roles ?? "").split(" "),
+            genres: (card.dataset.genres ?? "").split(" "),
+          },
+          state,
+        );
+        card.hidden = !show;
+        if (show) {
+          visible += 1;
+        }
+      }
+      empty.hidden = visible > 0;
+      for (const chip of chips) {
+        const key = chip.dataset.filter as FilterKey;
+        chip.setAttribute(
+          "aria-pressed",
+          String((state[key] ?? "") === chip.dataset.value),
+        );
+      }
+    };
+
+    root.addEventListener("click", (event) => {
+      const chip = (event.target as HTMLElement).closest<HTMLButtonElement>(
+        "[data-filter]",
+      );
+      if (!chip) {
+        return;
+      }
+      state = withFilter(
+        state,
+        chip.dataset.filter as FilterKey,
+        chip.dataset.value,
+      );
+      history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${serializeFilterState(state)}`,
+      );
+      render();
+    });
+
+    root.hidden = false;
+    render();
+  }
+</script>

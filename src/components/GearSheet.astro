@@ -1,0 +1,60 @@
+---
+interface Props {
+  gear: {
+    name: string;
+    items: { name: string; quantity?: number; note?: string }[];
+  }[];
+}
+
+const { gear } = Astro.props;
+---
+
+<div class="gear">
+  {gear.map((category) => (
+    <section class="gear__category">
+      <h3>{category.name}</h3>
+      <ul class="gear__items">
+        {category.items.map((item) => (
+          <li>
+            <span>
+              {item.name}
+              {item.quantity && item.quantity > 1 && (
+                <span class="muted"> x{item.quantity}</span>
+              )}
+            </span>
+            {item.note && <span class="muted gear__note">{item.note}</span>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</div>
+
+<style>
+  .gear {
+    columns: 18rem;
+    column-gap: 2.5rem;
+  }
+
+  .gear__category {
+    break-inside: avoid;
+    margin-bottom: 2rem;
+  }
+
+  .gear__category h3 {
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .gear li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.35rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .gear__note {
+    text-align: right;
+  }
+</style>

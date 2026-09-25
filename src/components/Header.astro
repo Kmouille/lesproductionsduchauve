@@ -1,0 +1,97 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/brand/logo.png";
+
+const links = [
+  { href: "/productions/", label: "Productions" },
+  { href: "/services/", label: "Services" },
+  { href: "/studio/", label: "Studio" },
+  { href: "/qui-suis-je/", label: "Qui suis-je" },
+  { href: "#contact", label: "Contact" },
+];
+const path = Astro.url.pathname;
+const isCurrent = (href: string) =>
+  href.startsWith("/") && path.startsWith(href);
+---
+
+<header class="header">
+  <div class="container header__bar">
+    <a class="brand" href="/">
+      <span class="brand__logo">
+        <Image
+          src={logo}
+          alt=""
+          width={40}
+          height={40}
+          densities={[1, 2, 3]}
+          loading="eager"
+        />
+      </span>
+      <span class="brand__name display">Les Productions du Chauve</span>
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <ul class="nav__list">
+        {links.map((link) => (
+          <li>
+            <a
+              class="kicker"
+              href={link.href}
+              aria-current={isCurrent(link.href) ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    padding-block: 1rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+
+  .brand__logo :global(img) {
+    border-radius: 50%;
+  }
+
+  .brand__name {
+    font-size: 1.35rem;
+  }
+
+  .nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+  }
+
+  .nav a {
+    margin: 0;
+    padding-block: 0.25rem;
+    border-bottom: 2px solid transparent;
+    color: var(--secondary);
+  }
+
+  .nav a:hover,
+  .nav a[aria-current="page"] {
+    color: var(--cream);
+    border-bottom-color: var(--cream);
+  }
+</style>
