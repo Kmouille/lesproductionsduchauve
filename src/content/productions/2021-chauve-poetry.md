@@ -1,5 +1,5 @@
 ---
-title: Petry
+title: Poetry
 artist: Chauve
 cover: /src/assets/productions/chauve-poetry.jpg
 releaseDate: 2021-07-08
@@ -15,7 +15,7 @@ genres:
   - stoner
   - hardcore
 featured: false
-draft: true
+draft: false
 ---
 Pictures by Lauriane Chazelas  
 PAO by Camille Blondiaux
