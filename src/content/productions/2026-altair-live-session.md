@@ -1,6 +1,6 @@
 ---
-title: "Live Session"
-artist: "Altaïr"
+title: Live Session
+artist: Altaïr
 cover: /src/assets/productions/altair-live-session.jpg
 releaseDate: 2026-07-17
 link: https://www.youtube.com/watch?v=z7EHEfDvzwQ
@@ -9,7 +9,6 @@ roles:
   - enregistrement
   - mixage
   - mastering
-genres: []
-featured: false
+featured: true
 draft: false
 ---
