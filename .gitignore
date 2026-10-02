@@ -3,6 +3,7 @@ dist/
 node_modules/
 .netlify/
 .superpowers/
+tmp/
 
 npm-debug.log*
 pnpm-debug.log*

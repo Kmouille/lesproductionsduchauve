@@ -100,6 +100,25 @@ La commande régénère `src/assets/brand/logo.png` (en-tête, page 404), `publi
 `public/apple-touch-icon.png` et `public/og-default.jpg` (image de partage). Elle
 n'agrandit jamais le logo au-delà de sa taille réelle.
 
+## Ajouter des productions depuis le web
+
+`scripts/fetch-production-data.sh` lit des pages Bandcamp et YouTube et sort, pour chacune,
+le titre, la date et la pochette. Il prend des paires `slug url` :
+
+```bash
+scripts/fetch-production-data.sh \
+  groupe-album https://groupe.bandcamp.com/album/album \
+  groupe-live  https://www.youtube.com/watch?v=XXXXXXXXXXX
+```
+
+- Le rapport est écrit dans `tmp/report.txt` et les pochettes dans `tmp/covers/` (dossier ignoré par Git).
+- Bandcamp donne la pochette en 1200 px et la date de sortie. YouTube donne la miniature
+  1280x720 et la date de mise en ligne, qui peut différer de la date d'enregistrement.
+- Copier ensuite chaque pochette dans `src/assets/productions/` et créer la fiche dans
+  `src/content/productions/`, en suivant une fiche existante. Les genres se règlent à la main.
+- Avec Claude Code, si l'accès réseau de l'assistant est refusé, lancer le script soi-même avec
+  le préfixe `!` dans la session. L'assistant lit ensuite `tmp/report.txt`.
+
 ## Documentation
 
 | Fichier                             | Contenu                                           |
